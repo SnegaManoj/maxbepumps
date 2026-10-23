@@ -1,0 +1,352 @@
+# MAXBE PUMPS — Premium Agriculture & Water Pump Website
+
+## Project Objective
+Design and build a highly attractive, professional, modern, fully responsive, product-focused website for **MAXBE PUMPS**, an agricultural and domestic water pump company serving farmers, households, irrigation applications, and other water-management needs.
+
+Use the website structure and customer journey of https://www.taropumps.com/ as inspiration. Create an original MAXBE PUMPS identity with its own visual style, content, imagery, layouts, and brand personality. Do not copy Taro's logo or represent MAXBE as affiliated with Taro.
+
+The website should look like a premium Indian pump manufacturer’s official website, designed to build trust, showcase products, help customers select pumps, and generate enquiries from farmers, homeowners, dealers, and distributors.
+
+## 1. Brand Identity & Color Palette
+
+Create a strong, recognizable industrial brand identity using these colors:
+
+- **Primary red:** `#C91D28` — buttons, key highlights, product accents, important headings.
+- **Premium golden yellow:** `#F4B323` — secondary buttons, highlights, icons, badges, and decorative elements.
+- **Deep charcoal:** `#242424` — navigation accents, footer, dark sections, and technical information.
+- **Warm off-white:** `#FAF8F2` — clean section backgrounds.
+- **Pure white:** `#FFFFFF` — product cards, content areas, and forms.
+- **Light agricultural green:** `#526B3D` — subtle nature-related accents only, without overpowering the red and gold branding.
+
+Use red and gold consistently but tastefully. The website must feel premium, powerful, trustworthy, and engineered for real-world agricultural work—not cartoonish, overly colorful, or cluttered.
+
+## 2. Overall Visual Direction
+
+Create an impressive industrial-agriculture aesthetic with:
+
+- Large, high-quality photographs of real water pumps and pump installations.
+- Indian agricultural fields, green crops, irrigation pipes, borewells, water tanks, rural homes, and farmers using water-pumping equipment.
+- Professional product photography against clean white, light grey, and warm neutral backgrounds.
+- Bold typography, generous whitespace, clean grids, crisp icons, and strong visual hierarchy.
+- Subtle gold lines, red call-to-action buttons, elegant shadows, and polished hover effects.
+- A mix of bright, spacious product sections and dark charcoal feature sections.
+- Realistic pump images with accurate proportions and visible product details.
+- High-quality responsive layouts for desktop, tablet, and mobile.
+
+Avoid generic template styling, excessive gradients, unnecessary animations, fake statistics, stock-looking illustrations, and repeated identical product images.
+
+## 3. Header and Navigation
+
+Build a professional sticky header with the MAXBE PUMPS logo on the left, navigation in the center, and a prominent red-and-gold “FIND YOUR PUMP” or “GET A QUOTE” button on the right.
+
+Navigation items:
+
+- Home
+- Products
+- Applications
+- Find Your Pump
+- Resources & Support
+- About MAXBE
+- Contact
+
+Include dropdown menus for product categories and applications. On mobile, use a clean hamburger menu with accessible navigation.
+
+Add a slim top information bar for customer support, dealer enquiries, and a verified phone number or contact link when available.
+
+## 4. Homepage — Premium Hero Section
+
+Create a striking, full-width hero section that immediately communicates MAXBE PUMPS’ agricultural and domestic water-pumping expertise.
+
+**Suggested headline:**
+
+“POWERING EVERY DROP.  
+GROWING EVERY TOMORROW.”
+
+Supporting text:
+
+“Dependable water-pumping solutions for agriculture, irrigation, homes, and everyday water needs. Discover the right MAXBE pump for your application.”
+
+Hero buttons:
+- EXPLORE OUR PUMPS
+- FIND YOUR PUMP
+
+Visual direction:
+Use a cinematic, high-resolution image of a lush Indian agricultural field with irrigation water flowing through crops, a farmer in the background, and a premium MAXBE pump featured prominently in the foreground or in a balanced split-screen composition.
+
+Use subtle red and golden-yellow graphic accents, bold white or charcoal text depending on the background, and a premium editorial composition.
+
+Do not obscure the pump or headline with excessive overlays.
+
+## 5. Product Categories
+
+Create a premium product-category section titled:
+
+“BUILT FOR EVERY WATER NEED.”
+
+Display products in elegant, image-led cards with consistent dimensions, a clear category name, a short description, relevant applications, and a “VIEW PRODUCTS” link.
+
+Include categories where applicable to the actual MAXBE product range:
+
+1. Borewell Submersible Pumps
+2. Open Well Submersible Pumps
+3. Agricultural Irrigation Pumps
+4. Monoblock Pumps
+5. Domestic Water Pumps
+6. Centrifugal Pumps
+7. Self-Priming Pumps
+8. Drainage and Sewage Pumps
+9. Solar Pumps, if available
+10. Electric Motors and Pump Accessories, if available
+
+Each card should have a genuine, relevant product photograph, a clean white background, restrained gold details, and a red action button or text link.
+
+Do not claim MAXBE manufactures a category unless that information has been verified. Make the categories editable so the real catalogue can be added later.
+
+## 6. Individual Product Pages
+
+Build a reusable product-detail page template for every actual MAXBE pump model.
+
+Each page should include:
+
+- Product name, model number, and clear product photograph.
+- Short product overview.
+- Key benefits and suitable applications.
+- Technical specifications table.
+- Available motor ratings, voltage, phases, and discharge details when verified.
+- Flow rate and head range when provided in official specifications.
+- Compatible water sources and installation requirements.
+- Product dimensions and materials when available.
+- Downloadable catalogue or technical datasheet, if available.
+- Installation and maintenance guidance.
+- Frequently asked questions.
+- Related products.
+- Dealer enquiry and “REQUEST PRODUCT DETAILS” buttons.
+
+Never invent technical specifications, certifications, test results, warranty durations, or performance figures. Display only verified data and use editable placeholders for missing information.
+
+## 7. Agriculture & Irrigation Landing Page
+
+Create a visually rich page specifically for farmers and agricultural customers.
+
+Suggested headline:
+
+“MORE WATER FOR YOUR FIELDS. MORE CONFIDENCE FOR YOUR FARM.”
+
+Show real agricultural scenes such as:
+- Irrigating green fields.
+- Borewell water systems.
+- Pump installations beside agricultural wells.
+- Irrigation pipelines and water distribution.
+- Farmers inspecting crops and managing their fields.
+
+Include sections for suitable pump categories, common irrigation applications, selecting a pump for a field, installation considerations, and dealer assistance.
+
+Add a prominent “FIND AN AGRICULTURAL PUMP” call to action.
+
+Explain that pump selection depends on water source, total head, required flow, pipe losses, power availability, and irrigation requirements.
+
+## 8. Domestic Water Solutions Page
+
+Create a clean, welcoming page for homeowners and residential customers.
+
+Suggested headline:
+
+“RELIABLE WATER, EVERY DAY.”
+
+Use realistic images of residential water tanks, home water supply systems, small pump installations, gardens, and household water distribution.
+
+Explain suitable product categories for:
+- Household water transfer.
+- Tank filling.
+- Garden watering.
+- Residential water supply.
+- Other applications supported by the actual catalogue.
+
+Include a simple pump-selection guide, installation considerations, product comparisons, FAQs, and a “GET HELP CHOOSING A PUMP” button.
+
+## 9. Interactive Find Your Pump Tool
+
+Create a user-friendly, multi-step pump finder.
+
+Ask customers:
+
+1. What is your main application?
+   - Agriculture
+   - Home water supply
+   - Commercial or industrial
+   - Drainage or wastewater
+
+2. What is your water source?
+   - Borewell
+   - Open well
+   - Water tank or sump
+   - Surface water
+   - Other
+
+3. What is your approximate water requirement?
+
+4. What is the required lifting height or total head, if known?
+
+5. What power supply is available?
+   - Single phase
+   - Three phase
+   - Solar, if supported
+   - Not sure
+
+6. Where will the pump be installed?
+
+Provide a clear result showing suitable product categories based on verified product data. If important details are missing, ask the customer to contact the MAXBE team or a qualified dealer.
+
+Include a progress indicator, clean form controls, helpful explanations, validation, and a restart option.
+
+Do not present demo recommendations as verified engineering advice.
+
+## 10. Why Choose MAXBE Section
+
+Create an attractive red, gold, white, and charcoal feature section highlighting verified company strengths.
+
+Possible feature cards:
+- Designed for the intended application.
+- Reliable product engineering.
+- Clear product information.
+- Customer and dealer support.
+- Agricultural and domestic applications.
+- Installation and maintenance guidance.
+
+Use genuine product and field photographs, restrained gold icons, and concise descriptions.
+
+Only use claims such as “Made in India,” “energy efficient,” “industry-leading,” “certified,” or specific years of experience if verified by the company.
+
+## 11. Product Comparison Section
+
+Build a clear, mobile-friendly comparison table for relevant pump categories.
+
+Suggested columns:
+- Pump category
+- Suitable water source
+- Typical applications
+- Power options
+- Available performance range
+- Product details
+
+Use red column headers, subtle gold highlights, and readable spacing.
+
+Populate performance information only from official product datasheets. Allow users to compare two or more suitable models when real catalogue data is available.
+
+## 12. Resources, Downloads & Support
+
+Create dedicated pages for:
+
+- Product catalogues.
+- Technical datasheets.
+- Owner manuals.
+- Installation guidance.
+- Maintenance tips.
+- Troubleshooting.
+- Frequently asked questions.
+- Warranty information.
+- Service and support enquiries.
+
+Use clean document cards with descriptive titles, file formats, and download links when files exist. Never create fake downloadable manuals or misleading technical documents.
+
+## 13. Dealer Locator
+
+Create a professional dealer-finder page with:
+
+- PIN code or city search.
+- Location-based search, if permission is granted.
+- Dealer cards showing verified business name, address, contact details, and directions.
+- Call and enquiry actions on mobile.
+- Map integration when a real map service and dealer dataset are configured.
+
+If live dealer information is not yet available, show an honest enquiry form instead of fake dealer results.
+
+## 14. About MAXBE PUMPS
+
+Design a company-profile page featuring:
+
+- Company introduction.
+- Brand purpose and values.
+- Manufacturing or quality processes, if verified.
+- Product range and customer applications.
+- Agriculture and domestic customer focus.
+- Distribution network.
+- Customer support and enquiry options.
+
+Use genuine MAXBE company photographs, factory images, product photographs, and team images when available.
+
+Do not fabricate the founding year, factory size, production capacity, customer count, export footprint, or certifications.
+
+## 15. Contact & Enquiry Pages
+
+Create a polished contact page with:
+
+- Customer enquiry form.
+- Product enquiry form.
+- Dealer or distributor enquiry.
+- Service and support enquiry.
+- Name, phone, email, location, and enquiry type fields.
+- Product/model selection.
+- Form validation and clear success/error feedback.
+
+Use verified company contact information only. Make the forms ready to connect to a backend, CRM, email service, or database. Clearly indicate if a form is currently a demo.
+
+## 16. Footer
+
+Create a rich, professional charcoal footer with golden-yellow accent lines and white text.
+
+Include:
+- MAXBE PUMPS logo.
+- Short company description.
+- Product category links.
+- Agriculture and domestic application links.
+- Pump finder.
+- Downloads and support.
+- About the company.
+- Contact and dealer enquiry.
+- Verified phone, email, and address.
+- Privacy policy and terms.
+- Social links, if official accounts exist.
+
+## 17. Design System and Interactions
+
+Use a consistent design system throughout the website:
+
+- Headings: bold, modern, high-impact sans-serif.
+- Body: highly readable sans-serif.
+- Buttons: red primary, golden-yellow secondary, with clear hover and focus states.
+- Cards: clean edges, subtle shadows, consistent image ratios, and refined spacing.
+- Icons: consistent, professional line icons.
+- Animations: restrained fades, gentle hover elevation, and subtle transitions.
+- Navigation: sticky header with functional dropdowns.
+- Forms: accessible labels, useful validation, and responsive layout.
+
+Avoid excessive rounded cards. Prefer a refined industrial style with crisp edges and strong typography.
+
+## 18. Technical Requirements
+
+Build a complete, multi-page, responsive website—not just a static landing page.
+
+Requirements:
+- Dedicated URLs or routes for every main page.
+- Working navigation, product links, dropdowns, buttons, and forms.
+- Reusable product cards and product-detail templates.
+- Search and filtering for the product catalogue.
+- Mobile-first responsive layouts.
+- Fast-loading, optimized images.
+- Accessible contrast, keyboard navigation, and semantic HTML.
+- Search-engine-friendly page titles, descriptions, headings, and URLs.
+- Structured product data that can be updated without redesigning the site.
+- Clean loading, empty, error, and success states.
+- No dead links, fake forms, or misleading demo results.
+- Clearly separate verified company information from placeholder content.
+
+Use real MAXBE PUMPS assets and official product specifications whenever supplied. If no assets are available, use high-quality, relevant pump and agriculture imagery as temporary placeholders and label them for replacement.
+
+## Final Design Goal
+
+The finished website should feel like a premium, established agricultural pump brand: bold red branding, elegant golden-yellow highlights, authentic Indian farming visuals, realistic product photography, clear technical information, and a smooth customer journey from discovering a pump to contacting a dealer.
+
+Prioritize **trust, product visibility, agricultural relevance, usability, and enquiry conversion**.
+
+Use Taro Pumps as a structural reference, but create a distinctive and original MAXBE PUMPS website rather than a direct copy of its branding or assets.
