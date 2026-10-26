@@ -79,70 +79,70 @@
   --elevate-1: rgba(0, 0, 0, 0.03);
   --elevate-2: rgba(0, 0, 0, 0.08);
 
-  --background: red; /*replace with H S L */
+  --background: 40 14% 96%;
 
-  --foreground: red; /*replace with H S L */
+  --foreground: 210 10% 16%;
 
-  --border: red; /*replace with H S L */
+  --border: 30 10% 84%;
 
-  --card: red; /*replace with H S L */
+  --card: 40 14% 98%;
 
-  --card-foreground: red; /*replace with H S L */
+  --card-foreground: 210 10% 16%;
 
-  --card-border: red; /*replace with H S L */
+  --card-border: 30 10% 84%;
 
-  --sidebar: red; /*replace with H S L */
+  --sidebar: 40 14% 96%;
 
-  --sidebar-foreground: red; /*replace with H S L */
+  --sidebar-foreground: 210 10% 16%;
 
-  --sidebar-border: red; /*replace with H S L */
+  --sidebar-border: 30 10% 84%;
 
-  --sidebar-primary: red; /*replace with H S L */
+  --sidebar-primary: 344 57% 28%;
 
-  --sidebar-primary-foreground: red; /*replace with H S L */
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: red; /*replace with H S L */
+  --sidebar-accent: 38 20% 90%;
 
-  --sidebar-accent-foreground: red; /*replace with H S L */
+  --sidebar-accent-foreground: 210 10% 16%;
 
-  --sidebar-ring: red; /*replace with H S L */
+  --sidebar-ring: 344 57% 28%;
 
-  --popover: red; /*replace with H S L */
+  --popover: 40 14% 98%;
 
-  --popover-foreground: red; /*replace with H S L */
+  --popover-foreground: 210 10% 16%;
 
-  --popover-border: red; /*replace with H S L */
+  --popover-border: 30 10% 84%;
 
-  --primary: red; /*replace with H S L */
+  --primary: 344 57% 28%;
 
-  --primary-foreground: red; /*replace with H S L */
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: red; /*replace with H S L */
+  --secondary: 38 22% 91%;
 
-  --secondary-foreground: red; /*replace with H S L */
+  --secondary-foreground: 210 10% 16%;
 
-  --muted: red; /*replace with H S L */
+  --muted: 38 18% 92%;
 
-  --muted-foreground: red; /*replace with H S L */
+  --muted-foreground: 210 7% 42%;
 
-  --accent: red; /*replace with H S L */
+  --accent: 12 42% 46%;
 
-  --accent-foreground: red; /*replace with H S L */
+  --accent-foreground: 0 0% 100%;
 
-  --destructive: red; /*replace with H S L */
+  --destructive: 0 66% 43%;
 
-  --destructive-foreground: red; /*replace with H S L */
+  --destructive-foreground: 0 0% 100%;
 
-  --input: red; /*replace with H S L */
-  --ring: red; /*replace with H S L */
-  --chart-1: red; /*replace with H S L */
-  --chart-2: red; /*replace with H S L */
-  --chart-3: red; /*replace with H S L */
-  --chart-4: red; /*replace with H S L */
-  --chart-5: red; /*replace with H S L */
+  --input: 30 10% 84%;
+  --ring: 344 57% 28%;
+  --chart-1: 344 57% 28%;
+  --chart-2: 12 42% 46%;
+  --chart-3: 210 10% 34%;
+  --chart-4: 38 22% 70%;
+  --chart-5: 30 10% 54%;
 
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-serif: 'Manrope', sans-serif;
   --app-font-mono: Menlo, monospace;
   --radius: 0.5rem; /* 8px */
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0); /*replace with H S L */
@@ -228,68 +228,68 @@
   --elevate-1: rgba(255, 255, 255, 0.04);
   --elevate-2: rgba(255, 255, 255, 0.09);
 
-  --background: red; /*replace with H S L */
+  --background: 210 10% 12%;
 
-  --foreground: red; /*replace with H S L */
+  --foreground: 40 14% 95%;
 
-  --border: red; /*replace with H S L */
+  --border: 210 7% 28%;
 
-  --card: red; /*replace with H S L */
+  --card: 210 9% 16%;
 
-  --card-foreground: red; /*replace with H S L */
+  --card-foreground: 40 14% 95%;
 
-  --card-border: red; /*replace with H S L */
+  --card-border: 210 7% 28%;
 
-  --sidebar: red; /*replace with H S L */
+  --sidebar: 210 10% 12%;
 
-  --sidebar-foreground: red; /*replace with H S L */
+  --sidebar-foreground: 40 14% 95%;
 
-  --sidebar-border: red; /*replace with H S L */
+  --sidebar-border: 210 7% 28%;
 
-  --sidebar-primary: red; /*replace with H S L */
+  --sidebar-primary: 344 57% 43%;
 
-  --sidebar-primary-foreground: red; /*replace with H S L */
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: red; /*replace with H S L */
+  --sidebar-accent: 210 8% 21%;
 
-  --sidebar-accent-foreground: red; /*replace with H S L */
+  --sidebar-accent-foreground: 40 14% 95%;
 
-  --sidebar-ring: red; /*replace with H S L */
+  --sidebar-ring: 344 57% 43%;
 
-  --popover: red; /*replace with H S L */
+  --popover: 210 9% 16%;
 
-  --popover-foreground: red; /*replace with H S L */
+  --popover-foreground: 40 14% 95%;
 
-  --popover-border: red; /*replace with H S L */
+  --popover-border: 210 7% 28%;
 
-  --primary: red; /*replace with H S L */
+  --primary: 344 57% 43%;
 
-  --primary-foreground: red; /*replace with H S L */
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: red; /*replace with H S L */
+  --secondary: 210 8% 23%;
 
-  --secondary-foreground: red; /*replace with H S L */
+  --secondary-foreground: 40 14% 95%;
 
-  --muted: red; /*replace with H S L */
+  --muted: 210 8% 21%;
 
-  --muted-foreground: red; /*replace with H S L */
+  --muted-foreground: 40 10% 72%;
 
-  --accent: red; /*replace with H S L */
+  --accent: 12 42% 56%;
 
-  --accent-foreground: red; /*replace with H S L */
+  --accent-foreground: 0 0% 100%;
 
-  --destructive: red; /*replace with H S L */
+  --destructive: 0 66% 52%;
 
-  --destructive-foreground: red; /*replace with H S L */
+  --destructive-foreground: 0 0% 100%;
 
   /* Used as the border around inputs. Dark mode: Should be a border that is light enough to have high contrast when rendered on a --card background. More contrast than standard --border */
-  --input: red; /*replace with H S L */
-  --ring: red; /*replace with H S L */
-  --chart-1: red; /*replace with H S L */
-  --chart-2: red; /*replace with H S L */
-  --chart-3: red; /*replace with H S L */
-  --chart-4: red; /*replace with H S L */
-  --chart-5: red; /*replace with H S L */
+  --input: 210 7% 30%;
+  --ring: 344 57% 43%;
+  --chart-1: 344 57% 43%;
+  --chart-2: 12 42% 56%;
+  --chart-3: 40 14% 75%;
+  --chart-4: 210 7% 54%;
+  --chart-5: 38 22% 63%;
 
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
   --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
@@ -693,3 +693,126 @@ h1,h2,h3 { font-family:Manrope,sans-serif; }
  .footer-bottom {flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce) { *,*:before,*:after {scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important} }
+
+/* MAXBE identity: technical editorial layout, maroon signal color, and warm engineered neutrals. */
+:root {
+  --background: 36 18% 96%;
+  --foreground: 210 11% 17%;
+  --border: 34 12% 83%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 11% 17%;
+  --card-border: 34 12% 83%;
+  --primary: 343 43% 31%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 35 16% 91%;
+  --secondary-foreground: 210 11% 17%;
+  --muted: 35 16% 91%;
+  --muted-foreground: 210 7% 42%;
+  --accent: 15 35% 48%;
+  --accent-foreground: 0 0% 100%;
+  --input: 34 12% 78%;
+  --ring: 343 43% 31%;
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-serif: 'Manrope', sans-serif;
+  --radius: .2rem;
+}
+html { scroll-behavior:smooth; }
+body { background:#f5f3ef;color:#252a2c;font-family:'DM Sans',sans-serif; }
+.announcement { background:#612537;color:#fff;padding:8px 5vw;font-size:9px;letter-spacing:.12em; }
+.announcement-note { margin-left:15px;color:#e5cbd0; }
+.header { background:rgba(249,248,245,.97);border-bottom-color:#dedbd5; }
+.nav { min-height:86px; }
+.brand { background:#fff;padding:5px 9px;box-shadow:0 1px 4px rgba(35,30,31,.08); }
+.brand img { display:block;width:190px;height:64px;object-fit:contain; }
+.footer .brand { background:#fff; }
+.navlinks a:after { background:#783044; }
+.nav-trigger:hover,.nav-trigger.active,.nav-dropdown .dropdown-feature { color:#783044; }
+.nav-dropdown { background:#faf9f6;border-color:#dedbd5; }
+.nav-dropdown a:hover,.nav-dropdown a:focus-visible { background:#f0e9e9;color:#783044; }
+.nav-cta,.btn { background:#783044; }
+.nav-cta:hover,.btn:hover { background:#5f2435; }
+.btn.gold,.band .btn { background:#d9c1c1;color:#512635; }
+.btn.gold:hover,.band .btn:hover { background:#ead9d9;color:#512635; }
+.btn.outline { color:#252a2c;border-color:#aaa5a0; }
+.btn.outline:hover { border-color:#783044;color:#783044; }
+.container { width:min(1200px,90vw); }
+.eyebrow { color:#783044; }
+.eyebrow:before { background:#b58c83; }
+.hero { min-height:670px;background:#2c3031; }
+.hero:before { background:linear-gradient(90deg,rgba(25,28,29,.93) 0%,rgba(25,28,29,.68) 43%,rgba(25,28,29,.04) 100%); }
+.hero-img { object-position:center 53%; }
+.hero .eyebrow { color:#e7c9cb; }
+.hero h1 em { color:#e1bdc1; }
+.hero .outline { color:#fff;border-color:rgba(255,255,255,.6); }
+.hero .outline:hover { color:#fff;border-color:#fff; }
+.image-note { background:rgba(37,42,44,.84); }
+.section { padding:92px 0; }
+.section-head h2,.story-copy h2 { font-family:'Manrope',sans-serif; }
+.story-image,.product-visual { background:#e8e6e2; }
+.image-label,.product-visual span { background:rgba(250,249,247,.96);color:#48494a; }
+.text-link { color:#783044; }
+.tile { background:#fbfaf8;border-color:#dedbd5; }
+.tile:hover { border-color:#783044; }
+.tile-num,.tile-arrow { color:#783044; }
+.band { background:#783044; }
+.band .eyebrow { color:#f0d8da; }
+.band p { color:#eadde0; }
+.page-hero { background:#292e30;color:#f8f7f5; }
+.page-hero:after { border-color:rgba(205,167,171,.22);box-shadow:0 0 0 45px rgba(205,167,171,.035),0 0 0 90px rgba(205,167,171,.025); }
+.notice { border-left-color:#9d6c74;background:#eee9e6;color:#4a4645; }
+.searchbox,.select,.product-card,.finder-panel,.form-card { background:#fff;border-color:#dfdcd6; }
+.searchbox:focus-within,.select:focus { border-color:#783044; }
+.catalog-grid { gap:18px; }
+.product-card { min-height:0; }
+.product-card:hover { border-color:#783044; }
+.product-image-link { display:block; }
+.product-visual { min-height:0;height:220px; }
+.product-visual img { height:100%;min-height:220px;object-fit:cover;transition:transform .45s; }
+.product-card:hover .product-visual img { transform:scale(1.035); }
+.product-visual span { font:8px 'Space Mono',monospace; }
+.product-body { padding:21px 21px 22px; }
+.category-kicker { color:#783044;font:9px 'Space Mono',monospace;letter-spacing:.06em;margin-bottom:10px; }
+.product-body h3 { font-size:19px;letter-spacing:-.025em; }
+.product-body p { min-height:58px;font-size:13px; }
+.product-card-actions { display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #eeeae5;margin-top:18px;padding-top:13px; }
+.product-card-actions .text-link,.quote-link { margin:0;font-size:12px; }
+.quote-link { display:inline-flex;align-items:center;gap:7px;color:#61585a;font-weight:700; }
+.quote-link:hover { color:#783044; }
+.catalog-footnote { margin-top:35px;border-top:1px solid #ddd8d2;padding-top:18px;color:#625d5b;font-size:13px;line-height:1.7; }
+.status { color:#6b5659; }
+.finder-rail { background:#2b3032; }
+.step-list .current b { background:#b89293;border-color:#b89293;color:#292e30; }
+.progress-track span { background:#b89293; }
+.option { background:#f8f7f4;border-color:#dedbd5; }
+.option:hover,.option.selected { border-color:#783044;background:#f8f2f2; }
+.option.selected { box-shadow:inset 3px 0 #783044; }
+.result-box { background:#f0e9e7;border-left-color:#783044; }
+.field input,.field select,.field textarea { border-color:#d8d4ce; }
+.field input:focus,.field select:focus,.field textarea:focus { border-color:#783044;box-shadow:0 0 0 3px rgba(120,48,68,.1); }
+.footer { background:#292e30; }
+.footer h4 { color:#d6b9bd; }
+.footer-col a:hover { color:#e3c6ca; }
+.footer-bottom { color:#c0b9b6;border-color:#4b5051; }
+.spec-table th { background:#f0eeeb; }
+.notfound h1 { color:#783044; }
+@media(max-width:760px) {
+  .announcement { padding:8px 12px;flex-wrap:wrap;gap:4px; }
+  .announcement-note { margin-left:5px; }
+  .nav { min-height:72px; }
+  .brand { padding:3px 6px; }
+  .brand img { width:150px;height:54px; }
+  .mobile-finder { background:#783044; }
+  .navlinks { top:72px;background:#faf9f6; }
+  .nav-dropdown,.applications-dropdown { border-left-color:#b58c83; }
+  .hero { min-height:590px; }
+  .product-visual { height:185px; }
+  .product-visual img { min-height:185px; }
+}
+@media(max-width:480px) {
+  .announcement { font-size:8px; }
+  .brand img { width:134px;height:48px; }
+  .hero h1 { font-size:clamp(42px,12vw,54px); }
+  .product-card-actions { align-items:flex-start;flex-direction:column;gap:10px; }
+}
+.product-detail-gallery { display:grid;gap:16px; }
+.product-detail-gallery .story-image,.product-detail-gallery .story-image img { height:300px;min-height:300px; }
