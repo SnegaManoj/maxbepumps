@@ -1,10 +1,83 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { Link, Route, Switch, useLocation } from 'wouter';
-import { ArrowDownRight, ArrowLeft, ArrowRight, Check, ChevronDown, Droplets, Menu, Search, X } from 'lucide-react';
-import { categories, productBySlug } from './data/products';
+import { ArrowDownRight, ArrowLeft, ArrowRight, Check, ChevronDown, Menu, Search, X } from 'lucide-react';
+import { ExploreCategoryImage, ProductImageGallery } from './components/catalogue/ProductImageGallery';
+import { ContactFactoryLocation, HomeFactoryLocation } from './components/FactoryLocation';
+import { categories, matchesCatalogueCategory, productBySlug, type CatalogueCategoryFilter } from './data/products';
+import ProductCatalogueDashboard from './pages/catalogue-dashboard';
 
 function Brand() {
-  return <Link href="/" className="brand" aria-label="MAXBE Pumps home" data-testid="link-brand"><img src="/images/maxbe-pumps-logo.png" alt="MAXBE Pumps — LOW VOLTAGE KING" /></Link>;
+  return <Link href="/" className="brand" aria-label="MAXBE Pumps home" data-testid="link-brand"><img className="site-logo" src="/assets/maxbe-logo.png" alt="MAXBE Pumps — LOW VOLTAGE KING" /></Link>;
+}
+
+function PumpLoadingScreen() {
+  const [visible, setVisible] = useState(true);
+  const [leaving, setLeaving] = useState(false);
+
+  useEffect(() => {
+    const startedAt = performance.now();
+    const imageLoads = Array.from(document.images)
+      .filter(image => !image.complete)
+      .map(image => new Promise<void>(resolve => {
+        image.addEventListener('load', () => resolve(), { once: true });
+        image.addEventListener('error', () => resolve(), { once: true });
+      }));
+    const hasPendingWork = document.readyState !== 'complete' || imageLoads.length > 0;
+
+    if (!hasPendingWork) {
+      setVisible(false);
+      return;
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let disposed = false;
+    let hideTimer = 0;
+    let removeTimer = 0;
+    let timeoutTimer = 0;
+    document.documentElement.classList.add('is-loading');
+
+    const documentLoad = document.readyState === 'complete'
+      ? Promise.resolve()
+      : new Promise<void>(resolve => window.addEventListener('load', () => resolve(), { once: true }));
+    const ready = Promise.all([documentLoad, ...imageLoads]);
+    const timeout = new Promise<void>(resolve => {
+      timeoutTimer = window.setTimeout(resolve, 6000);
+    });
+
+    void Promise.race([ready, timeout]).then(() => {
+      if (disposed) return;
+      window.clearTimeout(timeoutTimer);
+      const minimumTime = reduceMotion ? 0 : 950;
+      const remainingTime = Math.max(0, minimumTime - (performance.now() - startedAt));
+      hideTimer = window.setTimeout(() => {
+        if (disposed) return;
+        setLeaving(true);
+        removeTimer = window.setTimeout(() => {
+          if (!disposed) {
+            document.documentElement.classList.remove('is-loading');
+            setVisible(false);
+          }
+        }, reduceMotion ? 0 : 320);
+      }, remainingTime);
+    });
+
+    return () => {
+      disposed = true;
+      document.documentElement.classList.remove('is-loading');
+      window.clearTimeout(hideTimer);
+      window.clearTimeout(removeTimer);
+      window.clearTimeout(timeoutTimer);
+    };
+  }, []);
+
+  if (!visible) return null;
+  return <div className={`pump-loader${leaving ? ' is-leaving' : ''}`} role="status" aria-label="Preparing your pumping experience">
+    <div className="pump-loader-card">
+      <img className="pump-loader-logo" src="/assets/maxbe-logo.png" alt="MAXBE PUMPS — LOW VOLTAGE KING" />
+      <p className="pump-loader-message">Preparing your pumping experience...</p>
+      <div className="pump-loader-track" aria-hidden="true"><span /></div>
+    </div>
+  </div>;
 }
 
 function Header() {
@@ -12,7 +85,6 @@ function Header() {
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [location] = useLocation();
   const productsTrigger = useRef<HTMLButtonElement>(null);
-  const applicationsTrigger = useRef<HTMLButtonElement>(null);
   useEffect(() => { setOpen(false); setDropdown(null); }, [location]);
   const openFromKeyboard = (name: string) => {
     setDropdown(name);
@@ -22,13 +94,14 @@ function Header() {
     const previous = dropdown;
     setDropdown(null);
     if (previous === 'products') productsTrigger.current?.focus();
-    if (previous === 'applications') applicationsTrigger.current?.focus();
   };
   return <>
     <div className="announcement">MAXBE PUMPS <span aria-hidden="true">/</span> LOW VOLTAGE KING <span className="announcement-note">PRODUCT DETAILS AWAIT OFFICIAL CONFIRMATION</span></div>
     <header className="header"><nav className="nav" aria-label="Main navigation">
       <Brand />
       <div className={`navlinks ${open ? 'open' : ''}`} onKeyDown={event=>{if(event.key==='Escape'&&dropdown){event.preventDefault();closeDropdown();}}}>
+        <Link href="/" className={location==='/'?'active':''}>Home</Link>
+        <Link href="/about" className={location==='/about'?'active':''}>About Us</Link>
         <div className="nav-group">
           <button ref={productsTrigger} className={`nav-trigger ${location.startsWith('/products')?'active':''}`} aria-expanded={dropdown==='products'} aria-controls="products-dropdown" onClick={()=>setDropdown(dropdown==='products'?null:'products')} onKeyDown={event=>{if(event.key==='ArrowDown'){event.preventDefault();openFromKeyboard('products');}}} data-testid="button-nav-products">Products <ChevronDown size={14}/></button>
           {dropdown==='products'&&<div className="nav-dropdown" id="products-dropdown" data-dropdown="products" aria-label="Product categories">
@@ -36,19 +109,11 @@ function Header() {
             {categories.map(category=><Link href={`/products/${category.slug}`} key={category.slug}>{category.name}</Link>)}
           </div>}
         </div>
-        <div className="nav-group">
-          <button ref={applicationsTrigger} className={`nav-trigger ${location.startsWith('/applications')?'active':''}`} aria-expanded={dropdown==='applications'} aria-controls="applications-dropdown" onClick={()=>setDropdown(dropdown==='applications'?null:'applications')} onKeyDown={event=>{if(event.key==='ArrowDown'){event.preventDefault();openFromKeyboard('applications');}}} data-testid="button-nav-applications">Applications <ChevronDown size={14}/></button>
-          {dropdown==='applications'&&<div className="nav-dropdown applications-dropdown" id="applications-dropdown" data-dropdown="applications" aria-label="Applications">
-            <Link href="/applications/agriculture">Agriculture <span>Field & irrigation</span></Link>
-            <Link href="/applications/domestic">Domestic <span>Home water needs</span></Link>
-          </div>}
-        </div>
-        {[
-          ['/support/resources','Support'], ['/dealers','Find a dealer'], ['/about','About'], ['/contact','Contact'],
-        ].map(([href,label])=><Link key={href} href={href} className={location===href?'active':''} data-testid={`link-nav-${label.toLowerCase().replaceAll(' ','-')}`}>{label}</Link>)}
+        <Link href="/catalogue-dashboard" className={location==='/catalogue-dashboard'?'active':''}>Catalogue</Link>
+        <Link href="/contact" className={location==='/contact'?'active':''}>Contact Us</Link>
       </div>
-      <Link href="/find-your-pump" className="nav-cta">Find your pump <ArrowRight size={15}/></Link>
-      <Link className="mobile-finder" href="/find-your-pump">Find Your Pump <ArrowRight size={15}/></Link>
+      <Link href="/contact" className="nav-cta">Get a Quote <ArrowRight size={15}/></Link>
+      <Link className="mobile-finder" href="/contact">Get a Quote <ArrowRight size={15}/></Link>
       <button className="menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={()=>{setOpen(!open);if(open)setDropdown(null);}} data-testid="button-menu">{open?<X/>:<Menu/>}</button>
     </nav></header>
   </>;
@@ -58,7 +123,7 @@ function Footer() {
   return <footer className="footer"><div className="container">
     <div className="footer-main">
       <div><Brand/><p>Explore pump and motor categories. Product range, specifications and availability are awaiting official confirmation.</p></div>
-      <div className="footer-col"><h4>Explore</h4><Link href="/products">Product categories</Link><Link href="/find-your-pump">Guided pump finder</Link><Link href="/applications/agriculture">Agriculture</Link><Link href="/applications/domestic">Domestic</Link></div>
+      <div className="footer-col"><h4>Explore</h4><Link href="/products">Product categories</Link><Link href="/catalogue-dashboard">Product catalogue dashboard</Link><Link href="/find-your-pump">Guided pump finder</Link><Link href="/applications/agriculture">Agriculture</Link><Link href="/applications/domestic">Domestic</Link></div>
       <div className="footer-col"><h4>Help & information</h4><Link href="/support/resources">Resources</Link><Link href="/dealers">Dealer enquiry</Link><Link href="/about">About MAXBE</Link><Link href="/contact">Contact</Link></div>
       <div className="footer-col"><h4>Start here</h4><p>Know your water source? Take the first step with our preliminary finder.</p><Link className="text-link" href="/find-your-pump">Start the finder <ArrowRight size={14}/></Link></div>
     </div>
@@ -66,7 +131,17 @@ function Footer() {
   </div></footer>;
 }
 
-function Shell({ children }: { children: ReactNode }) { return <div className="site"><Header/><main>{children}</main><Footer/></div>; }
+function Shell({ children }: { children: ReactNode }) {
+  const [location] = useLocation();
+  const pageStyles = [
+    location === '/about' && 'ui-about',
+    location === '/contact' && 'ui-contact',
+    location === '/catalogue-dashboard' && 'ui-catalogue-dashboard',
+    (location === '/products' || location.startsWith('/products/')) && 'ui-products',
+    (location === '/applications/agriculture' || location === '/applications/domestic') && 'ui-application',
+  ].filter(Boolean).join(' ');
+  return <div className={`site ${pageStyles ? `ui-enhanced ${pageStyles}` : ''}`}><Header/><main>{children}</main><Footer/></div>;
+}
 
 function Meta({ title, description }: { title: string; description: string }) {
   useEffect(() => {
@@ -88,40 +163,54 @@ function CTA({ title,text,href='/find-your-pump',label='Find your pump' }: { tit
 
 function Home() {
   return <>
-    <Meta title="Water, where it matters" description="Explore MAXBE Pumps categories for agricultural irrigation, household water needs and water management."/>
+    <Meta title="Reliable water solutions" description="Explore MAXBE Pumps category information for agriculture, irrigation and domestic water needs."/>
     <section className="hero">
-      <img className="hero-img" src="/images/maxbe-hero-industrial-pumps.jpg" alt="Unbranded illustrative arrangement of a submersible pump, motor pump and centrifugal pump"/>
-      <div className="hero-inner animate-in"><div className="hero-copy"><Eyebrow>MAXBE PUMPS</Eyebrow><h1>MAXBE PUMPS.<br/><em>LOW VOLTAGE<br/>KING.</em></h1><p>Explore pump and motor categories, map your application and identify the details to confirm before choosing equipment.</p><div className="hero-actions"><Link href="/products" className="btn gold">Explore categories <ArrowRight size={16}/></Link><Link href="/find-your-pump" className="btn outline">Find a starting point</Link></div></div></div>
-      <div className="image-note">Unbranded generated sample · not MAXBE product photography</div>
+      <div className="hero-inner animate-in"><div className="hero-copy"><Eyebrow>POWERING EVERY DROP</Eyebrow><h1>Reliable Pumps.<br/><em>Powerful Performance.</em></h1><p>Discover dependable pumping solutions for agricultural irrigation and everyday domestic water needs.</p><div className="hero-actions"><Link href="/products" className="btn gold">Explore Our Products <ArrowRight size={16}/></Link><Link href="/contact" className="btn outline">Get a Quote</Link></div></div></div>
     </section>
     <section className="section"><div className="container section-head"><div><Eyebrow>START WITH YOUR NEED</Eyebrow><h2>A clearer way to find your way to water.</h2></div><p>Every installation starts with a different source, setting and purpose. Choose the path that looks like yours.</p></div>
       <div className="container tile-grid">{[['01','For the field','Explore the questions behind irrigation and agricultural water movement.','/applications/agriculture'],['02','For the home','Start with household storage, supply and daily water needs.','/applications/domestic'],['03','Not sure yet?','Answer a few simple questions for a preliminary category direction.','/find-your-pump']].map(([n,t,d,h])=><Link href={h} className="tile" key={n}><span className="tile-num">{n} / PATHWAY</span><h3>{t}</h3><p>{d}</p><ArrowDownRight className="tile-arrow" size={20}/></Link>)}</div>
     </section>
-    <section className="section" style={{background:'#f0ece2'}}><div className="container split"><div className="story-image"><img src="/images/submersible-assembly.jpg" alt="Unbranded stainless-steel submersible pump sample on a light studio background"/><span className="image-label">Generated sample image · not MAXBE product photography</span></div><div className="story-copy"><Eyebrow>MADE FOR REAL QUESTIONS</Eyebrow><h2>Begin with the water source. Not a model number.</h2><p>Is the water in a borewell, an open well, a tank or a surface source? Where does it need to go? These details help shape a sensible conversation before product selection.</p><p>The official catalogue is awaiting confirmation. Until product information is available, category discovery can still be useful—and product claims stay honest.</p><Link className="text-link" href="/find-your-pump">Try the six-step finder <ArrowRight size={15}/></Link></div></div></section>
+    <section className="section" style={{background:'#f0ece2'}}><div className="container split"><div className="story-panel"><Eyebrow>START WITH THE BASICS</Eyebrow><h3>Useful details to gather</h3><ul><li>Water source: borewell, open well, tank or surface source</li><li>Where the water needs to go</li><li>Approximate height and water requirement, if known</li></ul><span className="status">No model recommendations or specifications confirmed</span></div><div className="story-copy"><Eyebrow>MADE FOR REAL QUESTIONS</Eyebrow><h2>Begin with the water source. Not a model number.</h2><p>Is the water in a borewell, an open well, a tank or a surface source? Where does it need to go? These details help shape a sensible conversation before product selection.</p><p>The official catalogue is awaiting confirmation. Until product information is available, category discovery can still be useful—and product claims stay honest.</p><Link className="text-link" href="/find-your-pump">Try the six-step finder <ArrowRight size={15}/></Link></div></div></section>
     <section className="section"><div className="container section-head"><div><Eyebrow>THE CATEGORY LANDSCAPE</Eyebrow><h2>Explore the kinds of systems people ask about.</h2></div><Link className="text-link" href="/products">All categories <ArrowRight size={15}/></Link></div>
-      <div className="container catalog-grid">{categories.slice(0,6).map(c=><CategoryCard key={c.slug} category={c}/>)}</div>
+      <div className="container catalog-grid home-catalog-grid">{categories.slice(0,6).map(c=><CategoryCard key={c.slug} category={c}/>)}</div>
     </section>
-    <section className="section tight"><div className="container notice"><b>Product information note.</b> MAXBE product models, technical specifications, official product photography and availability have not been provided for this website. Images are illustrative placeholders, not verified MAXBE products.</div></section>
+    <section className="section applications-section"><div className="container section-head"><div><Eyebrow>WHERE WATER MATTERS</Eyebrow><h2>Solutions for everyday applications.</h2></div><p>Explore common water-use contexts and the questions that help shape a product conversation.</p></div>
+      <div className="container application-cards">
+        {[
+          ['Agricultural irrigation','Explore water movement for fields and irrigation systems.','/applications/agriculture'],
+          ['Residential water supply','Start with household storage, supply and daily water needs.','/applications/domestic'],
+          ['Garden watering','Consider source, use pattern and the site when planning garden water.','/applications/domestic'],
+        ].map(([title,description,href])=><Link href={href} className="application-card" key={title}><div><span>APPLICATION GUIDE</span><h3>{title}</h3><p>{description}</p><b>Explore application <ArrowRight size={15}/></b></div></Link>)}
+      </div>
+    </section>
+    <section className="section why-section"><div className="container section-head"><div><Eyebrow>WHY MAXBE PUMPS</Eyebrow><h2>A helpful start for your water needs.</h2></div><p>Clear category discovery and application-focused guidance, with product facts kept honest until officially confirmed.</p></div>
+      <div className="container tile-grid">{[['01','Agriculture & home','Explore categories for agricultural and domestic water applications.'],['02','Selection assistance','Use practical prompts to gather useful site and water-source details.'],['03','Application focused','Start with the job to be done, not an unverified model number.'],['04','Enquiry support','Share your questions through a clearly identified demo enquiry form.']].map(([n,title,text])=><article className="tile benefit-tile" key={n}><span className="tile-num">{n} / THE MAXBE APPROACH</span><h3>{title}</h3><p>{text}</p></article>)}</div>
+    </section>
+    <HomeFactoryLocation/>
+    <section className="section tight"><div className="container notice"><b>Product information note.</b> MAXBE product models, technical specifications, official product photography and availability have not been provided for this website. Product categories are shown as text only and do not confirm current offerings.</div></section>
     <CTA title="A few details can make the next conversation better." text="Use the guided finder to organise the basics. It is a preliminary starting point, not engineering advice."/>
   </>;
 }
 
 function CategoryCard({ category }: { category: typeof categories[number] }) {
-  return <article className="product-card" data-testid={`card-category-${category.slug}`}>
-    <Link href={`/products/${category.slug}`} className="product-image-link" aria-label={`View ${category.name} details`}><div className="product-visual"><img src={category.image} alt={`${category.imageLabel}; sample image, not verified MAXBE product photography`}/><span>{category.imageLabel} · sample image</span></div></Link>
-    <div className="product-body"><div className="category-kicker">CATEGORY / DETAILS AWAITING CONFIRMATION</div><h3>{category.name}</h3><p>{category.description}</p><div className="product-card-actions"><Link className="text-link" href={`/products/${category.slug}`}>View details <ArrowRight size={14}/></Link><Link className="quote-link" href="/contact">Enquire / request a quote <ArrowRight size={14}/></Link></div></div>
+  const [location] = useLocation();
+  return <article className={`product-card${location===`/products/${category.slug}`?' selected':''}`} data-testid={`card-category-${category.slug}`}>
+    <Link href={`/products/${category.slug}`} className="product-card-visual" aria-label={`Open ${category.name} category overview`}>
+      <div className="home-product-image" aria-label={`${category.name} image area; no image uploaded`}><span>PRODUCT IMAGE · NOT UPLOADED</span><small>1200 × 800 px</small></div>
+    </Link>
+    <div className="product-body"><div className="category-kicker">CATEGORY / DETAILS AWAITING CONFIRMATION</div><h3>{category.name}</h3><p>{category.description}</p><p className="product-status">Models, specifications and availability: awaiting confirmation.</p><div className="product-card-actions"><Link className="text-link" href={`/products/${category.slug}`}>View details <ArrowRight size={14}/></Link><Link className="quote-link" href="/contact">Enquire / request a quote <ArrowRight size={14}/></Link></div></div>
   </article>;
 }
 
 function Products() {
-  const [query,setQuery]=useState(''); const [filter,setFilter]=useState('all');
-  const shown=categories.filter(c=>c.name.toLowerCase().includes(query.toLowerCase())&&(filter==='all'||(filter==='agriculture'?/agricultural|borewell|open-well|solar/.test(c.slug):/low-voltage|monoblock|centrifugal|self-priming/.test(c.slug))));
+  const [query,setQuery]=useState(''); const [filter,setFilter]=useState<CatalogueCategoryFilter>('all');
+  const shown=categories.filter(c=>c.name.toLowerCase().includes(query.toLowerCase())&&matchesCatalogueCategory(c,filter));
   return <><Meta title="Product categories" description="Search MAXBE Pumps category listings. Product availability and specifications are awaiting catalogue confirmation."/><PageHero kicker="PRODUCT DISCOVERY" title="Find the right category to explore." text="A catalogue overview to help you navigate the landscape. Category listings are not confirmation that MAXBE manufactures or currently offers these products."/>
     <section className="section"><div className="container"><div className="notice" style={{marginBottom:26}}>Categories are shown for discovery only. Official catalogue, model names, availability and specifications have not been supplied.</div>
-      <div className="catalog-tools"><label className="searchbox"><Search size={18}/><input aria-label="Search product categories" data-testid="input-category-search" placeholder="Search categories…" value={query} onChange={e=>setQuery(e.target.value)}/></label><select className="select" aria-label="Filter categories" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">All categories</option><option value="agriculture">Agriculture</option><option value="domestic">Domestic & general</option></select></div>
+      <div className="catalog-tools"><label className="searchbox"><Search size={18}/><input aria-label="Search product categories" data-testid="input-category-search" placeholder="Search categories…" value={query} onChange={e=>setQuery(e.target.value)}/></label><select className="select" aria-label="Filter categories" value={filter} onChange={e=>setFilter(e.target.value as CatalogueCategoryFilter)}><option value="all">All categories</option><option value="agriculture">Agriculture</option><option value="domestic">Domestic & general</option></select></div>
       <h2 style={{fontSize:30,letterSpacing:'-.04em',margin:'34px 0 18px'}}>Explore categories</h2>
       <div className="catalog-grid">{shown.length?shown.map(c=><CategoryCard key={c.slug} category={c}/>):<div className="empty">No categories match that search. Try another term.</div>}</div>
-      <div className="catalog-footnote">No model-level specifications are published because verified MAXBE catalogue information has not yet been supplied. Sample photographs are illustrative only.</div>
+      <div className="catalog-footnote">No model-level specifications are published because verified MAXBE catalogue information has not yet been supplied.</div>
     </div></section><CTA title="Need help narrowing the question?" text="Our six-step finder gives you a preliminary category direction based on your application and water source."/>
   </>;
 }
@@ -130,16 +219,25 @@ function ProductDetail({ params }: { params:{slug?:string} }) {
   const category=params.slug?productBySlug(params.slug):undefined;
   if(!category)return <NotFound/>;
   return <><Meta title={category.name} description={`${category.name} category overview. MAXBE product details are awaiting official catalogue confirmation.`}/><PageHero kicker="CATEGORY OVERVIEW" title={category.name} text="A category listing for discovery. Product availability, models and technical details are awaiting official MAXBE catalogue confirmation."/>
-    <section className="section"><div className="container split"><div className="story-copy"><Eyebrow>WHAT WE CAN CONFIRM</Eyebrow><h2>Category information, not a product promise.</h2><p>{category.description}</p><p>There are no verified MAXBE models, specifications, product comparisons, warranty details or availability to display yet.</p><div className="notice">This category does not confirm that MAXBE manufactures or currently offers this product type.</div><Link className="btn" style={{marginTop:24}} href="/contact">Ask a category question <ArrowRight size={15}/></Link></div><div className={category.slug==='electric-motors-and-pump-accessories'?'product-detail-gallery':''}>{category.image?<div className="story-image"><img src={category.image} alt={`${category.imageLabel}; illustrative placeholder only`}/><span className="image-label">{category.imageLabel} · not an actual MAXBE product</span></div>:<div className="product-visual" style={{minHeight:400}}><Droplets size={55}/></div>}{category.slug==='electric-motors-and-pump-accessories'&&<div className="story-image"><img src="/images/motor-components.jpg" alt="Generated illustrative sample of unbranded motor and pump components, not verified MAXBE parts"/><span className="image-label">Illustrative component samples · not MAXBE product photography</span></div>}</div></div>
-    <div className="container" style={{marginTop:58}}><h2>Product details</h2><div className="compare-wrap"><table className="spec-table"><thead><tr><th>Information</th><th>Current status</th></tr></thead><tbody>{['Models','Technical specifications','Availability','Official product image','Warranty and service'].map(row=><tr key={row}><td>{row}</td><td>Not provided — awaiting confirmation</td></tr>)}</tbody></table></div>
+    <section className="section"><div className="container product-detail-layout">
+      <article className="product-detail-summary selected"><Eyebrow>WHAT WE CAN CONFIRM</Eyebrow><span className="category-kicker">CATEGORY</span><h2>{category.name}</h2><p>{category.description}</p><div className="notice">This category listing is for discovery only. It does not confirm that MAXBE manufactures or currently offers this product type.</div><Link className="btn" style={{marginTop:24}} href="/contact">Ask a category question <ArrowRight size={15}/></Link></article>
+      <div className="product-facts" aria-label="Product information status">{[['Product models','Awaiting official confirmation'],['Technical specifications','Awaiting official confirmation'],['Availability','Awaiting official confirmation'],['Warranty and service','Awaiting official confirmation']].map(([label,value])=><article className="product-fact" key={label}><h3>{label}</h3><p>{value}</p></article>)}</div>
     </div></section><CTA title="Have a specific water need?" text="Share the application and source in a demo enquiry, or use the preliminary finder."/>
+    <section className="section catalogue-category-gallery"><div className="container">
+      <div className="section-head"><div><Eyebrow>PRODUCT IMAGE VIEWS</Eyebrow><h2>Four angles, ready for your images.</h2></div><p>These frames stay empty until you add an image. Uploaded files are saved in this browser only.</p></div>
+      <ProductImageGallery productSlug={category.slug}/>
+    </div></section>
+    <section className="section catalogue-explore-section"><div className="container catalogue-explore-layout">
+      <div><Eyebrow>EXPLORE CATEGORY</Eyebrow><h2>{category.name}</h2><p>{category.description}</p><p>Official model details and specifications are awaiting confirmation.</p><Link className="btn" href="/products">Back to all categories <ArrowRight size={15}/></Link></div>
+      <ExploreCategoryImage productSlug={category.slug}/>
+    </div></section>
   </>;
 }
 
 function Application({ kind }: { kind:'agriculture'|'domestic' }) {
   const farm=kind==='agriculture';
   return <><Meta title={farm?'Agricultural applications':'Domestic applications'} description={`Explore water-pump considerations for ${farm?'agriculture and irrigation':'household water management'} with MAXBE Pumps.`}/><PageHero kicker={farm?'APPLICATION · AGRICULTURE':'APPLICATION · DOMESTIC'} title={farm?'Water is part of every field decision.':'Water for the everyday rhythm of home.'} text={farm?'For irrigation, crop water management and farm use, the right starting point is understanding the water source and where it needs to travel.':'For a home, begin with the water source, storage arrangement and the places water needs to reach.'}/>
-    <section className="section"><div className="container split"><div className="story-image"><img src={farm?'/images/solar-water-pump.jpg':'/images/low-voltage-pump.jpg'} alt={farm?'Illustrative unbranded water pump beside solar panels in an agricultural field':'Illustrative unbranded electric pump and motor on a neutral studio background'}/><span className="image-label">Generated sample image · not a MAXBE installation</span></div><div className="story-copy"><Eyebrow>{farm?'FIELD TO SOURCE':'SOURCE TO TAP'}</Eyebrow><h2>{farm?'Start with the source. Then map the route.':'A useful first conversation starts at home.'}</h2><p>{farm?'Borewell, open well, surface water or a storage tank: each source raises different questions. Note your approximate water requirement and lifting height if you know them.':'Consider where water comes from, whether there is a tank or sump, and which floors or fixtures need supply. Approximate height and usage can help a qualified professional understand the setup.'}</p><p>These pages offer general planning prompts only. MAXBE product range and specifications are awaiting official confirmation.</p><Link href="/find-your-pump" className="btn">Start the preliminary finder <ArrowRight size={15}/></Link></div></div></section>
+    <section className="section"><div className="container split"><div className="story-panel application-note"><Eyebrow>{farm?'FIELD CHECKLIST':'HOME CHECKLIST'}</Eyebrow><h3>{farm?'Information to gather':'Household details to note'}</h3><ul>{(farm?['Water source and seasonal variation','Where water needs to travel','Approximate requirement and lifting height, if known']:['Water source and storage arrangement','Floors, tanks or fixtures to be supplied','Approximate height and daily use, if known']).map(item=><li key={item}>{item}</li>)}</ul><span className="status">Planning guidance only · confirm requirements with a qualified professional</span></div><div className="story-copy"><Eyebrow>{farm?'FIELD TO SOURCE':'SOURCE TO TAP'}</Eyebrow><h2>{farm?'Start with the source. Then map the route.':'A useful first conversation starts at home.'}</h2><p>{farm?'Borewell, open well, surface water or a storage tank: each source raises different questions. Note your approximate water requirement and lifting height if you know them.':'Consider where water comes from, whether there is a tank or sump, and which floors or fixtures need supply. Approximate height and usage can help a qualified professional understand the setup.'}</p><p>These pages offer general planning prompts only. MAXBE product range and specifications are awaiting official confirmation.</p><Link href="/find-your-pump" className="btn">Start the preliminary finder <ArrowRight size={15}/></Link></div></div></section>
     <section className="section" style={{background:'#f0ece2'}}><div className="container section-head"><div><Eyebrow>THREE THINGS TO NOTE</Eyebrow><h2>Bring useful context to the conversation.</h2></div><p>Unknown is a valid answer. A qualified professional should verify every installation requirement.</p></div><div className="container tile-grid">{(farm?[['01','Water source','Borewell, open well, surface water or storage.'],['02','Where it goes','Distance, height and irrigation layout, if known.'],['03','Power available','Single-phase, three-phase, solar or not sure.']]:[['01','Water source','Municipal, borewell, tank, sump or another source.'],['02','Building layout','Floors, tank position and approximate height.'],['03','Daily use','Household needs and times of highest demand.']]).map(([n,t,d])=><div className="tile" key={n}><span className="tile-num">{n} / NOTE</span><h3>{t}</h3><p>{d}</p></div>)}</div></section><CTA title="Take what you know. Leave the rest blank." text="The finder accepts unknown flow and head values and offers only a preliminary category direction."/>
   </>;
 }
@@ -190,8 +288,9 @@ function ContactForm({dealer=false}:{dealer?:boolean}) {
 }
 
 function Contact({dealer=false}:{dealer?:boolean}) {
-  return <><Meta title={dealer?'Dealer enquiry':'Contact'} description={dealer?'Dealer listings are not available yet. Use the demo enquiry form to outline your region and need.':'Send a demo enquiry about MAXBE category information. No information is sent or stored.'}/><PageHero kicker={dealer?'DEALER NETWORK':'GET IN TOUCH'} title={dealer?'Looking for a nearby dealer?':'Let’s start with your question.'} text={dealer?'MAXBE dealer records and locations have not been supplied. We cannot show or verify a dealer near you. Share a region in this demo enquiry instead.':'Use the form to outline a category or application question. This demo does not send or store your information.'}/>
-    <section className="section"><div className="container contact-layout"><div className="contact-intro"><Eyebrow>{dealer?'NO VERIFIED DEALER DIRECTORY':'A DEMO ENQUIRY'}</Eyebrow><h2>{dealer?'Dealer information is not available yet.':'A useful conversation begins with context.'}</h2><p>{dealer?'We do not have official dealer names, addresses, regions or contact details to publish. No dealer search is performed.':'No official phone number, email or address has been supplied, so we will not invent contact details. This form is a local demonstration only.'}</p><div className="notice">Nothing you type is transmitted or saved. A success message only confirms the local demo interaction.</div></div><ContactForm dealer={dealer}/></div></section>
+  return <><Meta title={dealer?'Dealer enquiry':'Contact'} description={dealer?'Dealer listings are not available yet. Use the demo enquiry form to outline your region and need.':'Contact MAXBE Pumps at the Coimbatore factory or use the local demo enquiry form.'}/><PageHero kicker={dealer?'DEALER NETWORK':'GET IN TOUCH'} title={dealer?'Looking for a nearby dealer?':'Let’s start with your question.'} text={dealer?'MAXBE dealer records and locations have not been supplied. We cannot show or verify a dealer near you. Share a region in this demo enquiry instead.':'Contact our Coimbatore factory or use the form to outline a category or application question. The form does not send or store your information.'}/>
+    {!dealer&&<ContactFactoryLocation/>}
+    <section className="section"><div className="container contact-layout"><div className="contact-intro"><Eyebrow>{dealer?'NO VERIFIED DEALER DIRECTORY':'A DEMO ENQUIRY'}</Eyebrow><h2>{dealer?'Dealer information is not available yet.':'A useful conversation begins with context.'}</h2><p>{dealer?'We do not have official dealer names, addresses, regions or contact details to publish. No dealer search is performed.':'Use the local demo form to share a category or application question. It does not submit your information.'}</p><div className="notice">Nothing you type is transmitted or saved. A success message only confirms the local demo interaction.</div></div><ContactForm dealer={dealer}/></div></section>
   </>;
 }
 
@@ -203,21 +302,25 @@ function Resources() {
 
 function About() {
   return <><Meta title="About MAXBE" description="MAXBE Pumps brand overview. Company history and verified product information await confirmation."/><PageHero kicker="ABOUT MAXBE" title="MAXBE Pumps. LOW VOLTAGE KING." text="The supplied MAXBE brand mark identifies the brand and its LOW VOLTAGE KING tagline. Company history, manufacturing details and verified product facts await confirmation."/>
-    <section className="section"><div className="container split"><div className="story-copy"><Eyebrow>ABOUT THIS BRAND SITE</Eyebrow><h2>Useful discovery. Honest information.</h2><p>This site helps visitors explore pump and motor category topics and organise useful questions before a product conversation.</p><p>Company history, manufacturing details, years in business, certifications, customers, dealer coverage and product performance are not confirmed here.</p><Link className="text-link" href="/products">Browse category listings <ArrowRight size={15}/></Link></div><div className="story-image"><img src="/images/maxbe-hero-industrial-pumps.jpg" alt="Generated sample arrangement of unbranded pump and motor equipment"/><span className="image-label">Generated sample imagery · not MAXBE product photography</span></div></div></section>
-    <section className="section" style={{background:'#292e30',color:'#f8f7f5'}}><div className="container section-head"><div><Eyebrow>THE MAXBE STANDARD FOR THIS WEBSITE</Eyebrow><h2>Three things we will not guess.</h2></div><p style={{color:'#c5c0b6'}}>The catalogue will become more useful when the details are verified.</p></div><div className="container tile-grid">{[['01','Product facts','Models and technical specifications need official confirmation.'],['02','Availability','Category listings are discovery aids, not a promise of supply.'],['03','People & places','No invented customers, dealers, addresses or contact details.']].map(([n,t,d])=><div className="tile" key={n} style={{background:'#343a3b',borderColor:'#4b5051',color:'#f8f7f5'}}><span className="tile-num" style={{color:'#d6b9bd'}}>{n} / PRINCIPLE</span><h3>{t}</h3><p style={{color:'#c5c0b6'}}>{d}</p></div>)}</div></section><CTA title="Start with your application." text="Explore categories, follow a use-case path or try the six-step preliminary finder." href="/products" label="Explore products"/>
+    <section className="section"><div className="container split"><div className="story-copy"><Eyebrow>ABOUT THIS BRAND SITE</Eyebrow><h2>Useful discovery. Honest information.</h2><p>This site helps visitors explore pump and motor category topics and organise useful questions before a product conversation.</p><p>Company history, manufacturing details, years in business, certifications, customers, dealer coverage and product performance are not confirmed here.</p><Link className="text-link" href="/products">Browse category listings <ArrowRight size={15}/></Link></div><div className="story-panel"><Eyebrow>INFORMATION STATUS</Eyebrow><h3>What is available on this site</h3><ul><li>Text-based category overviews</li><li>General agriculture and domestic planning prompts</li><li>A preliminary question-led pump finder</li></ul><span className="status">Official product range and specifications await confirmation</span></div></div></section>
+    <section className="section about-standard-section"><div className="container section-head"><div><Eyebrow>THE MAXBE STANDARD FOR THIS WEBSITE</Eyebrow><h2>Three things we will not guess.</h2></div><p>The catalogue will become more useful when the details are verified.</p></div><div className="container tile-grid">{[['01','Product facts','Models and technical specifications need official confirmation.'],['02','Availability','Category listings are discovery aids, not a promise of supply.'],['03','People & places','No invented customers, dealers, addresses or contact details.']].map(([n,t,d])=><div className="tile" key={n}><span className="tile-num">{n} / PRINCIPLE</span><h3>{t}</h3><p>{d}</p></div>)}</div></section><CTA title="Start with your application." text="Explore categories, follow a use-case path or try the six-step preliminary finder." href="/products" label="Explore products"/>
   </>;
 }
 
 function NotFound() { return <><Meta title="Page not found" description="The requested MAXBE Pumps page could not be found."/><div className="notfound"><div><div className="eyebrow" style={{justifyContent:'center'}}>PAGE NOT FOUND</div><h1>404</h1><p>This route has no water in it. Let’s get you back on track.</p><Link className="btn" href="/">Back to home <ArrowRight size={15}/></Link></div></div></>; }
 
 function App() {
-  return <Shell><Switch>
-    <Route path="/" component={Home}/><Route path="/products" component={Products}/><Route path="/products/:slug" component={ProductDetail}/>
-    <Route path="/applications/agriculture"><Application kind="agriculture"/></Route><Route path="/applications/domestic"><Application kind="domestic"/></Route>
-    <Route path="/find-your-pump" component={Finder}/><Route path="/support/resources" component={Resources}/>
-    <Route path="/dealers"><Contact dealer/></Route><Route path="/about" component={About}/><Route path="/contact"><Contact/></Route>
-    <Route component={NotFound}/>
-  </Switch></Shell>;
+  return <>
+    <Shell><Switch>
+      <Route path="/" component={Home}/><Route path="/products" component={Products}/><Route path="/products/:slug" component={ProductDetail}/>
+      <Route path="/catalogue-dashboard" component={ProductCatalogueDashboard}/>
+      <Route path="/applications/agriculture"><Application kind="agriculture"/></Route><Route path="/applications/domestic"><Application kind="domestic"/></Route>
+      <Route path="/find-your-pump" component={Finder}/><Route path="/support/resources" component={Resources}/>
+      <Route path="/dealers"><Contact dealer/></Route><Route path="/about" component={About}/><Route path="/contact"><Contact/></Route>
+      <Route component={NotFound}/>
+    </Switch></Shell>
+    <PumpLoadingScreen />
+  </>;
 }
 
 export default App;
