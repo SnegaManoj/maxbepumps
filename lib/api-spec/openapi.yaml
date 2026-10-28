@@ -1,0 +1,148 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: enquiries
+    description: Customer and dealer enquiry operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /enquiries:
+    post:
+      operationId: submitEnquiry
+      tags: [enquiries]
+      summary: Submit a customer or dealer enquiry
+      description: Validates an enquiry and forwards it to the server-configured delivery endpoint.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnquirySubmission"
+      responses:
+        "201":
+          description: The configured delivery endpoint acknowledged the enquiry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnquiryAccepted"
+        "202":
+          description: A spam submission was accepted without forwarding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnquiryAccepted"
+        "400":
+          description: Required fields or formats are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "415":
+          description: The request must use application/json.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: The per-process request limit was exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "502":
+          description: The configured delivery endpoint failed or timed out.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: No valid HTTPS delivery endpoint is configured.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    EnquirySubmission:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        businessName:
+          type: string
+          maxLength: 160
+        phone:
+          type: string
+          maxLength: 40
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        state:
+          type: string
+          maxLength: 80
+        city:
+          type: string
+          maxLength: 100
+        businessType:
+          type: string
+          maxLength: 80
+        enquiryType:
+          type: string
+          enum: [customer, product, dealer, service]
+        category:
+          type: string
+          pattern: '^(not-sure|[a-z0-9]+(-[a-z0-9]+)*)$'
+          maxLength: 100
+        model:
+          type: string
+          maxLength: 100
+        message:
+          type: string
+          maxLength: 2000
+        website:
+          type: string
+          maxLength: 200
+          description: Hidden spam-trap field. Leave empty.
+      required: [name, email, enquiryType, category, message]
+    EnquiryAccepted:
+      type: object
+      properties:
+        ok:
+          type: boolean
+      required: [ok]
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+

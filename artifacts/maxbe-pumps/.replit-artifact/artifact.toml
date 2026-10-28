@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MAXBE Pumps"
+description = "A responsive product and support website for MAXBE Pumps, helping agricultural and residential customers explore pump categories, find a suitable pump, and submit enquiries."
+version = "1.0.0"
+id = "artifacts/maxbe-pumps"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25776
+
+[services.development]
+run = "pnpm --filter @workspace/maxbe-pumps run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/maxbe-pumps", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/maxbe-pumps/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25776"
+BASE_PATH = "/"

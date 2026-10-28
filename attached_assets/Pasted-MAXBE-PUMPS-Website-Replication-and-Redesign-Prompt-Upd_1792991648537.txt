@@ -1,0 +1,126 @@
+MAXBE PUMPS Website Replication and Redesign Prompt
+
+Update my existing website using the attached MAXBE PUMPS logo as the official brand identity. Modify the existing website rather than creating a completely unrelated website from scratch.
+
+1. Official Logo Integration
+Use the attached MAXBE PUMPS logo as the primary logo throughout the entire website.
+Replace the existing logo on all web pages, including the homepage, header, footer, product pages, contact page, about page, navigation menus, and mobile layouts.
+Preserve the original logo design, including the maroon emblem, MAXBE PUMPS lettering, registered trademark symbol, and the tagline “LOW VOLTAGE KING.”
+Maintain the correct proportions, colors, and sharpness of the logo.
+Use a transparent-background version if available. Do not stretch, crop, distort, recolor, or recreate the logo unnecessarily.
+Make the logo clickable and link it to the homepage.
+Ensure the logo is clearly visible on desktop, tablet, and mobile devices.
+2. Product Images and Motor Photography
+
+Add professional, realistic motor and pump product images throughout the website. Use suitable product images as sample images for the existing product categories.
+
+Include images of:
+
+Electric motors
+Low-voltage motors
+Industrial electric motors
+Water pump motors
+Single-phase and three-phase motors
+Submersible pump motors
+Industrial water pumps
+Motor components and accessories
+
+Use clean, high-quality product photography with realistic details, professional studio lighting, neutral backgrounds, and clear product visibility.
+
+Use appropriate images for product cards, product detail pages, category sections, homepage banners, and featured products. Each image must match the relevant product category.
+
+Important: Treat these images as sample or placeholder product images when actual company product photographs are unavailable. Do not misrepresent sample images as verified photographs of specific MAXBE PUMPS products.
+
+3. Homepage Design
+
+Redesign and improve the homepage while preserving the existing website structure and functionality.
+
+Include:
+
+A professional header with the official MAXBE PUMPS logo.
+A clear navigation menu.
+A hero banner featuring industrial motors or pump products.
+A headline highlighting MAXBE PUMPS as the “LOW VOLTAGE KING.”
+A short introduction to the company and its products.
+Featured product categories with representative images.
+Popular or featured motor products.
+Company strengths and product benefits, using only verified claims.
+A prominent Contact Us or Request a Quote section.
+A professional footer with the logo and relevant navigation links.
+4. Product Pages and Product Cards
+
+Update all existing product pages to include suitable motor and pump images.
+
+Every product card should include:
+
+Product image
+Product name
+Product category
+A short description
+Available specifications, where verified
+A View Details button
+An enquiry or Request a Quote button
+
+Create a consistent layout across all product categories. Use image sizing, spacing, typography, and card styles consistently.
+
+For product detail pages, include a larger product image, product overview, technical specifications when available, applications, and an enquiry form or contact option.
+
+Do not invent technical specifications, certifications, prices, or performance claims. Use existing verified website information wherever available.
+
+5. Branding and Visual Style
+
+Use the existing logo as the foundation for the website's visual identity.
+
+Primary color: maroon, matching the supplied logo.
+Secondary colors: white, charcoal, and light grey.
+Typography: bold, readable, professional fonts suitable for an industrial manufacturing brand.
+Design style: modern, clean, technical, trustworthy, and product-focused.
+Use consistent buttons, headings, icons, borders, and spacing.
+Keep product images prominent and avoid unnecessary decorative elements.
+
+The finished website should communicate industrial quality, reliability, and professionalism.
+
+6. Update Every Page
+
+Apply the branding and image updates globally across the entire existing website.
+
+Check and update:
+
+Homepage
+About Us
+All product category pages
+Individual product detail pages
+Services and applications pages
+Contact Us
+Enquiry forms
+Header and navigation
+Footer
+Mobile navigation
+Any additional existing pages
+
+Ensure no old logo remains anywhere on the website unless it is intentionally required for historical content.
+
+7. Responsive Design and Functionality
+Ensure the website works correctly on desktop, tablet, and mobile devices.
+Maintain fast page loading and optimize image sizes.
+Use responsive product grids and image galleries.
+Add descriptive alternative text to product images.
+Preserve existing URLs, forms, navigation, and working features.
+Ensure all buttons, links, and enquiry forms function correctly.
+Avoid broken images, duplicate content, layout overflow, and inconsistent branding.
+8. Final Quality Check
+
+Before completing the update:
+
+Verify that the official MAXBE PUMPS logo appears consistently on every page.
+Confirm that every relevant product category has an appropriate motor or pump image.
+Check that product images match their descriptions.
+Test all navigation links, product detail links, and enquiry buttons.
+Review desktop and mobile layouts.
+Confirm that existing website functionality has not been broken.
+Remove outdated logos and replace inappropriate placeholder graphics.
+Final Objective
+
+Transform the existing MAXBE PUMPS website into a consistent, professional industrial motor and pump website using the supplied official logo and relevant product photography.
+
+Preserve the existing website and its functionality. Update the branding, product images, layout consistency, and visual presentation across all pages. Do not rebuild unrelated features or invent company information.
