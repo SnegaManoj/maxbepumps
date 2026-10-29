@@ -6,8 +6,14 @@ export const factoryLocation = {
     'Tamil Nadu, India',
   ],
   address: '264/5, Kurukkampalayam Road, Ganeshapuram, MGC Palayam Post, Coimbatore 641107, Tamil Nadu, India',
-  phone: '94883 535649 / 4425 735640422-2654185',
+  phones: [
+    { label: 'Mobile', value: '94883 53564', href: 'tel:+919488353564' },
+    { label: 'Mobile 2', value: '94425 73564', href: 'tel:+919442573564' },
+    { label: 'Factory', value: '0422-2654185', href: 'tel:+914222654185' },
+  ],
   email: 'maxbeindustries@yahoo.co.in',
+  secondaryEmail: 'maxbeindustries@hotmail.com',
+  businessHours: 'Mon – Sat: 9:00 AM – 6:00 PM',
 } as const;
 
 // Coordinates come from the Google Maps listing whose displayed address matches the factory.

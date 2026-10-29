@@ -6,10 +6,9 @@ type PdfLogo = PdfImage;
 
 const pageMargin = 42;
 const footerHeight = 38;
-const maroon: [number, number, number] = [74, 8, 13];
-const gold: [number, number, number] = [212, 175, 55];
-const ink: [number, number, number] = [33, 27, 27];
-const muted: [number, number, number] = [100, 91, 91];
+const brandRed: [number, number, number] = [246, 2, 2];
+const ink: [number, number, number] = [17, 17, 17];
+const muted: [number, number, number] = [90, 90, 90];
 
 function printableText(value: string): string {
   return value
@@ -21,7 +20,7 @@ function printableText(value: string): string {
 }
 
 async function loadLogo(): Promise<PdfLogo> {
-  const response = await fetch('/assets/maxbe-logo.png');
+  const response = await fetch('/assets/maxbe-logo-transparent.png');
   if (!response.ok) throw new Error('The existing MAXBE logo could not be loaded for the catalogue.');
   const bitmap = await createImageBitmap(await response.blob());
   const scale = Math.min(1, 800 / Math.max(bitmap.width, bitmap.height));
@@ -88,11 +87,11 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
   const addHeader = (continued = false) => {
     if (hasPage) pdf.addPage();
     hasPage = true;
-    pdf.setFillColor(...maroon);
+    pdf.setFillColor(...brandRed);
     pdf.rect(0, 0, pageWidth, 10, 'F');
     const fittedLogo = fitImage(logo, pageMargin, 24, 108, 38);
     pdf.addImage(logo.data, 'PNG', fittedLogo.x, fittedLogo.y, fittedLogo.width, fittedLogo.height, undefined, 'FAST');
-    pdf.setTextColor(...maroon);
+    pdf.setTextColor(...brandRed);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(9);
     pdf.text('PRODUCT CATALOGUE', pageWidth - pageMargin, 39, { align: 'right' });
@@ -110,14 +109,14 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
   for (const product of products) {
     currentProduct = product;
     let y = addHeader();
-    pdf.setTextColor(...maroon);
+    pdf.setTextColor(...brandRed);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(22);
     const titleLines = pdf.splitTextToSize(printableText(product.name), contentWidth);
     pdf.text(titleLines, pageMargin, y + 22);
     y += titleLines.length * 25 + 18;
 
-    pdf.setTextColor(...gold);
+    pdf.setTextColor(...muted);
     pdf.setFontSize(9);
     pdf.text('CATEGORY OVERVIEW', pageMargin, y);
     y += 20;
@@ -158,7 +157,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
       pdf.text(pdf.splitTextToSize(printableText(value), contentWidth - 142), pageMargin + 142, y);
       y += 16;
     }
-    pdf.setFillColor(250, 247, 239);
+    pdf.setFillColor(245, 241, 235);
     pdf.roundedRect(pageMargin, y + 4, contentWidth, 32, 4, 4, 'F');
     pdf.setTextColor(...muted);
     pdf.setFontSize(8);
@@ -184,9 +183,9 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
       const x = pageMargin + column * (cardWidth + gap);
       const top = y + row * (cardHeight + rowGap);
       pdf.setDrawColor(225, 219, 210);
-      pdf.setFillColor(250, 249, 246);
+      pdf.setFillColor(255, 255, 255);
       pdf.roundedRect(x, top, cardWidth, cardHeight, 4, 4, 'FD');
-      pdf.setTextColor(...maroon);
+      pdf.setTextColor(...brandRed);
       pdf.setFontSize(8);
       pdf.text(view.toUpperCase(), x + 10, top + 16);
       const image = images?.get(view);
@@ -203,16 +202,16 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
     y += cardHeight * 2 + rowGap + 20;
 
     if (y + 66 > pageHeight - footerHeight - pageMargin) y = newFlowPage();
-    pdf.setFillColor(250, 247, 239);
+    pdf.setFillColor(245, 241, 235);
     pdf.roundedRect(pageMargin, y, contentWidth, 58, 4, 4, 'F');
-    pdf.setTextColor(...maroon);
+    pdf.setTextColor(...brandRed);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(10);
     pdf.text('MAXBE PUMPS', pageMargin + 12, y + 18);
     pdf.setTextColor(...muted);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8);
-    pdf.text('No verified address, email, phone number, or website was provided.', pageMargin + 12, y + 36);
+    pdf.text('Confirm model specifications and availability directly with MAXBE.', pageMargin + 12, y + 36);
   }
 
   const pageCount = pdf.getNumberOfPages();
@@ -223,7 +222,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
     pdf.setTextColor(...muted);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8);
-    pdf.text('MAXBE PUMPS  ·  PRODUCT DETAILS AWAIT OFFICIAL CONFIRMATION', pageMargin, pageHeight - 17);
+    pdf.text('MAXBE PUMPS  ·  WEBSITE-GENERATED PRODUCT RANGE OVERVIEW', pageMargin, pageHeight - 17);
     pdf.text(`${page} / ${pageCount}`, pageWidth - pageMargin, pageHeight - 17, { align: 'right' });
   }
 
@@ -237,7 +236,7 @@ export async function downloadProductCataloguePdf(products: ProductCategory[]): 
   anchor.href = url;
   anchor.download = products.length === 1
     ? `maxbe-${products[0].slug}-catalogue.pdf`
-    : 'maxbe-product-catalogue.pdf';
+    : 'maxbe-product-range-overview.pdf';
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
