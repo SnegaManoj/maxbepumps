@@ -10,7 +10,7 @@ export function FactoryContactDetails() {
     <div className="factory-contact-row"><Mail size={17} aria-hidden="true"/><span><b>Email:</b> <a href={`mailto:${factoryLocation.email}`}>{factoryLocation.email}</a></span></div>
     <div className="factory-contact-row factory-business-hours"><span><b>Business hours:</b> {factoryLocation.businessHours}</span></div>
     <a className="factory-directions-link" href={factoryDirectionsUrl} target="_blank" rel="noopener noreferrer">
-      <Navigation size={16} aria-hidden="true"/>Get Directions<ArrowUpRight size={14} aria-hidden="true"/>
+      <Navigation size={16} aria-hidden="true"/>Get directions<ArrowUpRight size={14} aria-hidden="true"/>
     </a>
   </div>;
 }
@@ -36,7 +36,7 @@ export function HomeFactoryLocation() {
   return <section className="section home-factory-section" aria-labelledby="home-factory-heading">
     <div className="container">
       <div className="section-head">
-        <div><div className="eyebrow">FIND US IN</div><h2 id="home-factory-heading">Our Factory, Coimbatore</h2></div>
+        <div><div className="eyebrow">Find us in</div><h2 id="home-factory-heading">Our factory, Coimbatore</h2></div>
         <p>Find our factory and contact the MAXBE team.</p>
       </div>
       <div className="home-factory-card">
@@ -51,7 +51,7 @@ export function ContactFactoryLocation() {
   return <section className="section contact-factory-section" aria-labelledby="contact-factory-heading">
     <div className="container">
       <div className="section-head">
-        <div><div className="eyebrow">FIND US IN</div><h2 id="contact-factory-heading">Our Factory, Coimbatore</h2></div>
+        <div><div className="eyebrow">Find us in</div><h2 id="contact-factory-heading">Our factory, Coimbatore</h2></div>
         <p>Visit or contact our factory using the details below.</p>
       </div>
       <div className="contact-factory-layout">

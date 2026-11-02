@@ -7,6 +7,8 @@ export const factoryLocation = {
   ],
   address: '264/5, Kurukkampalayam Road, Ganeshapuram, MGC Palayam Post, Coimbatore 641107, Tamil Nadu, India',
   phones: [
+    { label: 'Office', value: '+91 4223590766', href: 'tel:+914223590766' },
+    { label: 'Mobile 3', value: '7094228833', href: 'tel:+917094228833' },
     { label: 'Mobile', value: '94883 53564', href: 'tel:+919488353564' },
     { label: 'Mobile 2', value: '94425 73564', href: 'tel:+919442573564' },
     { label: 'Factory', value: '0422-2654185', href: 'tel:+914222654185' },

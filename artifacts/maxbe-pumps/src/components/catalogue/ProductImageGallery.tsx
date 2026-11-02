@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, Trash2 } from 'lucide-react';
+import { SampleProductImage } from '../SampleProductImage';
 import {
   deleteProductImage,
   PRODUCT_IMAGE_VIEWS,
@@ -93,7 +94,7 @@ function ProductImageFrame({
 
   return <article className="catalogue-image-card">
     <div className={`catalogue-image-frame${image ? ' has-image' : ''}`} style={{ aspectRatio }} aria-label={`${label} image frame`}>
-      {image ? <img src={image.url} alt={`${label} of ${productSlug.replaceAll('-', ' ')}`} /> : <div className="catalogue-image-empty"><ImagePlus size={20} aria-hidden="true"/><span>Image not uploaded</span></div>}
+      <SampleProductImage src={image?.url} alt={image ? `${label} of ${productSlug.replaceAll('-', ' ')}` : `${productSlug.replaceAll('-', ' ')} sample reference image`}/>
       <span className="catalogue-image-label">{label}</span>
     </div>
     {dimensions && <p className="catalogue-image-dimensions">Intended image size: {dimensions}</p>}
@@ -121,7 +122,7 @@ function ProductImageFrame({
 
 export function ProductImageGallery({ productSlug, editable = true }: { productSlug: string; editable?: boolean }) {
   return <div className="catalogue-image-grid">
-    {PRODUCT_IMAGE_VIEWS.map(view => <ProductImageFrame key={view} productSlug={productSlug} slot={view} label={view} aspectRatio="1 / 1" editable={editable}/>)}
+    {PRODUCT_IMAGE_VIEWS.map(view => <ProductImageFrame key={view} productSlug={productSlug} slot={view} label={view.replace(' View', ' view')} aspectRatio="1 / 1" editable={editable}/>)}
   </div>;
 }
 
@@ -129,7 +130,7 @@ export function ExploreCategoryImage({ productSlug, editable = true }: { product
   return <ProductImageFrame
     productSlug={productSlug}
     slot="Explore Front View"
-    label="Front View"
+    label="Front view"
     aspectRatio="4 / 3"
     dimensions="1200 × 900 px"
     editable={editable}

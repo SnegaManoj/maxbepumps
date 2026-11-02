@@ -1,5 +1,5 @@
 import { readProductImage, PRODUCT_IMAGE_VIEWS, type ProductImageView } from '../data/product-images';
-import type { ProductCategory } from '../data/products';
+import { SAMPLE_PRODUCT_IMAGE, type ProductCategory } from '../data/products';
 
 type PdfImage = { data: string; width: number; height: number };
 type PdfLogo = PdfImage;
@@ -51,6 +51,17 @@ async function blobToPng(blob: Blob): Promise<PdfImage> {
   context.fillStyle = '#ffffff';
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  context.save();
+  context.translate(canvas.width / 2, canvas.height / 2);
+  context.rotate(-Math.PI / 10);
+  context.font = `800 ${Math.max(18, Math.round(Math.min(canvas.width, canvas.height) * 0.075))}px Arial`;
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillStyle = 'rgba(255,255,255,.82)';
+  context.shadowColor = 'rgba(0,0,0,.8)';
+  context.shadowBlur = 5;
+  context.fillText('SAMPLE IMAGE', 0, 0);
+  context.restore();
   bitmap.close();
   return { data: canvas.toDataURL('image/png'), width: canvas.width, height: canvas.height };
 }
@@ -66,16 +77,19 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
   if (!products.length) throw new Error('Select at least one catalogue entry before downloading a PDF.');
   const { jsPDF } = await import('jspdf');
 
-  const [logo, imageEntries] = await Promise.all([
+  const [logo, sampleResponse] = await Promise.all([
     loadLogo(),
-    Promise.all(products.map(async product => {
-      const entries = await Promise.all(PRODUCT_IMAGE_VIEWS.map(async view => {
-        const blob = await readProductImage(product.slug, view);
-        return blob ? [view, await blobToPng(blob)] as const : undefined;
-      }));
-      return [product.slug, new Map(entries.filter((entry): entry is readonly [ProductImageView, PdfImage] => Boolean(entry)))] as const;
-    })),
+    fetch(SAMPLE_PRODUCT_IMAGE),
   ]);
+  if (!sampleResponse.ok) throw new Error('The MAXBE sample product image could not be loaded for the catalogue.');
+  const sampleImage = await blobToPng(await sampleResponse.blob());
+  const imageEntries = await Promise.all(products.map(async product => {
+    const entries = await Promise.all(PRODUCT_IMAGE_VIEWS.map(async view => {
+      const blob = await readProductImage(product.slug, view);
+      return [view, blob ? await blobToPng(blob) : sampleImage] as const;
+    }));
+    return [product.slug, new Map(entries)] as const;
+  }));
   const imagesByProduct = new Map(imageEntries);
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -94,12 +108,12 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
     pdf.setTextColor(...brandRed);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(9);
-    pdf.text('PRODUCT CATALOGUE', pageWidth - pageMargin, 39, { align: 'right' });
+    pdf.text('Product catalogue', pageWidth - pageMargin, 39, { align: 'right' });
     if (continued && currentProduct) {
       pdf.setTextColor(...muted);
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
-      pdf.text('CONTINUED', pageWidth - pageMargin, 52, { align: 'right' });
+      pdf.text('Continued', pageWidth - pageMargin, 52, { align: 'right' });
     }
     return 78;
   };
@@ -118,7 +132,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
 
     pdf.setTextColor(...muted);
     pdf.setFontSize(9);
-    pdf.text('CATEGORY OVERVIEW', pageMargin, y);
+    pdf.text('Category overview', pageMargin, y);
     y += 20;
 
     pdf.setTextColor(...ink);
@@ -187,7 +201,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
       pdf.roundedRect(x, top, cardWidth, cardHeight, 4, 4, 'FD');
       pdf.setTextColor(...brandRed);
       pdf.setFontSize(8);
-      pdf.text(view.toUpperCase(), x + 10, top + 16);
+      pdf.text(view.replace(' View', ' view'), x + 10, top + 16);
       const image = images?.get(view);
       if (image) {
         const fitted = fitImage(image, x + 12, top + 24, cardWidth - 24, cardHeight - 32);
@@ -207,7 +221,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
     pdf.setTextColor(...brandRed);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(10);
-    pdf.text('MAXBE PUMPS', pageMargin + 12, y + 18);
+    pdf.text('MAXBE Pumps', pageMargin + 12, y + 18);
     pdf.setTextColor(...muted);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8);
@@ -222,7 +236,7 @@ export async function generateProductCataloguePdf(products: ProductCategory[]): 
     pdf.setTextColor(...muted);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8);
-    pdf.text('MAXBE PUMPS  ·  WEBSITE-GENERATED PRODUCT RANGE OVERVIEW', pageMargin, pageHeight - 17);
+    pdf.text('MAXBE Pumps · Website-generated product range overview', pageMargin, pageHeight - 17);
     pdf.text(`${page} / ${pageCount}`, pageWidth - pageMargin, pageHeight - 17, { align: 'right' });
   }
 

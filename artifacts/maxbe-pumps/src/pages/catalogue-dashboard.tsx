@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowDownToLine, ArrowRight, Check, Eye, FileText, Search, X } from 'lucide-react';
 import { Link } from 'wouter';
+import { SampleProductImage } from '../components/SampleProductImage';
 import { ProductImageGallery } from '../components/catalogue/ProductImageGallery';
 import { categories, matchesCatalogueCategory, type CatalogueCategoryFilter } from '../data/products';
 import { downloadProductCataloguePdf } from '../lib/catalogue-pdf';
@@ -33,13 +34,13 @@ function ProductCataloguePreview({
   }}>
     <section className="catalogue-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="catalogue-preview-title">
       <header className="catalogue-preview-header">
-        <div><span className="category-kicker">CATALOGUE PREVIEW</span><h2 id="catalogue-preview-title">{products.length} {products.length === 1 ? 'entry' : 'entries'}</h2></div>
+        <div><span className="category-kicker">Catalogue preview</span><h2 id="catalogue-preview-title">{products.length} {products.length === 1 ? 'entry' : 'entries'}</h2></div>
         <button type="button" className="catalogue-icon-button" onClick={onClose} aria-label="Close catalogue preview"><X size={20}/></button>
       </header>
       <div className="catalogue-preview-content">
         {products.map(product => <article className="catalogue-preview-product" key={product.slug}>
           <div className="catalogue-preview-product-copy">
-            <p className="category-kicker">CATEGORY / CODE NOT PROVIDED</p>
+            <p className="category-kicker">Category / code not provided</p>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p className="catalogue-unverified-note">Product models, specifications, and availability await official confirmation.</p>
@@ -120,8 +121,8 @@ export default function ProductCatalogueDashboard() {
     <div className="catalogue-dashboard page-hero">
       <div className="container catalogue-dashboard-heading">
         <div>
-          <div className="eyebrow">PRODUCT MANAGEMENT · LOCAL BROWSER VIEW</div>
-          <h1>Product Catalogue</h1>
+          <div className="eyebrow">Product management · Local browser view</div>
+          <h1>Product catalogue</h1>
           <p>Browse available category records, manage image views in this browser, and prepare a shareable catalogue PDF.</p>
         </div>
         <div className="catalogue-dashboard-actions">
@@ -153,11 +154,11 @@ export default function ProductCatalogueDashboard() {
             const isIncluded = selectedSlugs.includes(product.slug);
             return <article className={`catalogue-entry-card${isActive ? ' selected' : ''}`} key={product.slug}>
               <Link href={`/products/${product.slug}`} className="catalogue-entry-image-link" aria-label={`Open category overview for ${product.name}`}>
-                <div className="catalogue-entry-image" aria-label={`${product.name} image area; no image uploaded`}><span>PRODUCT IMAGE · NOT UPLOADED</span><small>1200 × 800 px</small></div>
+                <div className="catalogue-entry-image"><SampleProductImage alt={`${product.name} sample reference image`}/><small>Sample image</small></div>
               </Link>
               <div className="catalogue-entry-body">
                 <label className="catalogue-entry-checkbox"><input type="checkbox" checked={isIncluded} onChange={() => toggleProduct(product.slug)} aria-label={`Include ${product.name} in PDF`}/><span>Include in PDF</span></label>
-                <span className="category-kicker">CATEGORY LISTING · CODE NOT PROVIDED</span>
+                <span className="category-kicker">Category listing · Code not provided</span>
                 <h2>{product.name}</h2>
                 <p>{product.description}</p>
                 <div className="catalogue-entry-actions">
@@ -175,7 +176,7 @@ export default function ProductCatalogueDashboard() {
 
         {activeProduct && <section id="catalogue-product-details" className="catalogue-product-detail">
           <header className="catalogue-detail-heading">
-            <div><span className="category-kicker">SELECTED CATALOGUE ENTRY</span><h2>{activeProduct.name}</h2><p>{activeProduct.description}</p></div>
+            <div><span className="category-kicker">Selected catalogue entry</span><h2>{activeProduct.name}</h2><p>{activeProduct.description}</p></div>
             <Link href={`/products/${activeProduct.slug}`} className="catalogue-link-button">Explore category <ArrowRight size={15}/></Link>
           </header>
           <div className="catalogue-detail-content">
